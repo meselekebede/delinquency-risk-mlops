@@ -1,0 +1,19 @@
+# Virtual Environment
+venv/
+__pycache__/
+*.pyc
+
+# MLflow
+mlruns/
+
+# Data
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+
+# Models
+models/*
+
+# OS files
+.DS_Store
+Thumbs.db
