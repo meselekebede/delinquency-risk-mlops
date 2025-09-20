@@ -1,0 +1,5 @@
+outs:
+- md5: 1f57087bb45b063ae020af68155337e2
+  size: 388023
+  hash: md5
+  path: synthetic_loan_data.csv
