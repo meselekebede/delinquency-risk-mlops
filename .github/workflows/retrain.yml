@@ -38,10 +38,12 @@ jobs:
 
       # 6. Save updated models
       - name: 📤 Upload updated models
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: trained-models
-          path: models/
+          path: |
+           models/*.pkl
+          retention-days: 30
 
       # Optional: Commit updated data/model info back
       - name: 📝 Commit updated dataset (optional)
