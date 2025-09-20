@@ -20,12 +20,39 @@ os.makedirs(MODELS_DIR, exist_ok=True)
 
 print("🔄 Starting automatic retraining pipeline...")
 
-# --- 1. Load existing data ---
-print("📁 Loading existing data...")
-if not os.path.exists(DATA_PATH):
-    raise FileNotFoundError(f"Data not found at {DATA_PATH}")
-df_existing = pd.read_csv(DATA_PATH)
-print(f"✅ Existing dataset size: {len(df_existing)}")
+# --- 1. Generate fresh synthetic data each time ---
+print("🆕 Generating fresh synthetic training data...")
+def generate_synthetic_data(n_samples=5000):
+    np.random.seed(42)
+    data = {
+        'age': np.random.randint(18, 70, n_samples),
+        'gender': np.random.choice(['Male', 'Female'], n_samples),
+        'education': np.random.choice(['Primary', 'Secondary', 'Tertiary'], n_samples),
+        'employment_status': np.random.choice(['Employed', 'Self-Employed', 'Unemployed'], n_samples),
+        'monthly_income': np.round(np.random.lognormal(9.2, 0.8, n_samples), 2),
+        'loan_amount': np.round(np.random.uniform(5000, 150000, n_samples), 2),
+        'loan_tenure_months': np.random.choice([6, 12, 18, 24], n_samples),
+        'loan_purpose': np.random.choice(['Business', 'Emergency', 'Education', 'Home Improvement'], n_samples),
+        'region': np.random.choice(['Urban', 'Rural'], n_samples),
+        'previous_default': np.random.choice([0, 1], n_samples, p=[0.75, 0.25]),
+        'num_previous_loans': np.random.poisson(1.5, n_samples),
+        'credit_score': np.random.randint(300, 850, n_samples)
+    }
+    df = pd.DataFrame(data)
+    
+    risk_score = (
+        (df['monthly_income'] < 10000).astype(int) * 0.3 +
+        df['previous_default'] * 0.5 +
+        (df['loan_amount'] / df['monthly_income'] > 6).astype(int) * 0.4 +
+        (df['credit_score'] < 550).astype(int) * 0.3 +
+        np.random.normal(0, 0.05, n_samples)
+    )
+    df['delinquent'] = (risk_score > 0.5).astype(int)
+    return df
+
+# Always use fresh synthetic data
+df_existing = generate_synthetic_data(n_samples=5000)
+print(f"✅ Generated synthetic dataset with {len(df_existing)} records.")
 
 # --- 2. Simulate New Incoming Data ---
 print("🆕 Generating new synthetic data for retraining...")
