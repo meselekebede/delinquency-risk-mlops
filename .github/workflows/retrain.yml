@@ -46,20 +46,20 @@ jobs:
           retention-days: 30
 
       # Optional: Commit updated data/model info back
-      - name: 📝 Commit updated dataset (optional)
-        id: commit
-        run: |
-          git config user.name "GitHub Actions"
-          git config user.email "actions@github.com"
-          git add data/raw/synthetic_loan_data.csv models/*.pkl
-          git status
-          if git diff-index --quiet HEAD --; then
-            echo "No changes to commit"
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-          else
-            git commit -m "🤖 Auto-retrain: Updated training data and models [$(date)]"
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          fi
+      #- name: 📝 Commit updated dataset (optional)
+     #   id: commit
+     #   run: |
+      #    git config user.name "GitHub Actions"
+     #     git config user.email "actions@github.com"
+      #    git add data/raw/synthetic_loan_data.csv models/*.pkl
+       #   git status
+        #  if git diff-index --quiet HEAD --; then
+         #   echo "No changes to commit"
+          #  echo "has_changes=false" >> $GITHUB_OUTPUT
+          #else
+           # git commit -m "🤖 Auto-retrain: Updated training data and models [$(date)]"
+            #echo "has_changes=true" >> $GITHUB_OUTPUT
+          #fi
 
       # Push only if there were changes
       - name: 🔼 Push changes to GitHub
