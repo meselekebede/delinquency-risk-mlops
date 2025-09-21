@@ -1,15 +1,15 @@
 # .github/workflows/retrain.yml
-name: 🔄 Weekly Model Retraining
+name: 🔄 Weekly Model Retraining & Deployment
 
 on:
   schedule:
-    - cron: '0 0 * * 0'   # Every Sunday at 00:00 UTC (~5:00 AM Ethiopia time)
-  workflow_dispatch:      # Allows manual trigger via GitHub UI
+    - cron: '0 0 * * 0'   # Every Sunday at 00:00 UTC
+  workflow_dispatch:      # Allow manual trigger
 
 jobs:
   retrain-model:
     runs-on: ubuntu-latest
-    name: "🔁 Retrain Delinquency Risk Model"
+    name: "🔁 Retrain, Select Best Model, and Prepare for Deployment"
 
     steps:
       # 1. Checkout code
@@ -26,42 +26,60 @@ jobs:
       - name: 📦 Install required packages
         run: |
           pip install --upgrade pip
-          pip install pandas numpy scikit-learn xgboost mlflow joblib fastapi uvicorn openpyxl
+          pip install pandas numpy scikit-learn xgboost mlflow joblib fastapi uvicorn evidently
 
       # 4. Make sure directories exist
-      - name: 📁 Create models directory
-        run: mkdir -p models
+      - name: 📁 Create required directories
+        run: |
+          mkdir -p models
+          mkdir -p logs
+          mkdir -p reports
 
-      # 5. Run retraining script
+      # 5. Run drift detection (optional step - uncomment if you want)
+      # - name: 🔍 Run drift detection
+      #   run: python scripts/detect_drift.py
+
+      # 6. Run retraining script
       - name: 🚀 Run retraining script
         run: python scripts/retrain.py
 
-      # 6. Save updated models
-      - name: 📤 Upload updated models
+      # 7. Upload updated models and metadata
+      - name: 📤 Upload updated models (v4)
         uses: actions/upload-artifact@v4
         with:
-          name: trained-models
+          name: retrained-models
           path: |
-           models/*.pkl
+            models/model.pkl
+            models/model_metadata.json
+            models/*.pkl
           retention-days: 30
 
-      # Optional: Commit updated data/model info back
-      #- name: 📝 Commit updated dataset (optional)
-     #   id: commit
-     #   run: |
-      #    git config user.name "GitHub Actions"
-     #     git config user.email "actions@github.com"
-      #    git add data/raw/synthetic_loan_data.csv models/*.pkl
-       #   git status
-        #  if git diff-index --quiet HEAD --; then
-         #   echo "No changes to commit"
-          #  echo "has_changes=false" >> $GITHUB_OUTPUT
+      # 8. Commit updated model back to repo (optional - for local deployment)
+      #- name: 📝 Commit updated model to repo
+        #id: commit
+        #run: |
+         # git config user.name "GitHub Actions"
+          #git config user.email "actions@github.com"
+          #git add models/model.pkl models/model_metadata.json
+          #git status
+          #if git diff-index --quiet HEAD --; then
+           # echo "No changes to commit"
+            #echo "has_changes=false" >> $GITHUB_OUTPUT
           #else
-           # git commit -m "🤖 Auto-retrain: Updated training data and models [$(date)]"
+           # git commit -m "🤖 Auto-retrain: Updated active model [$(date)]"
             #echo "has_changes=true" >> $GITHUB_OUTPUT
           #fi
 
-      # Push only if there were changes
+      # 9. Push changes to GitHub (if any)
       - name: 🔼 Push changes to GitHub
         if: steps.commit.outputs.has_changes == 'true'
-        run: git push origin main
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
+      # 10. Optional: Trigger redeployment (e.g., to Railway, Render, etc.)
+      # - name: 🚀 Trigger Redeployment
+      #   run: |
+      #     curl -X POST https://api.railway.app/project/YOUR_PROJECT_ID/service/YOUR_SERVICE_ID/deploy \
+      #       -H "Authorization: Bearer ${{ secrets.RAILWAY_TOKEN }}"
