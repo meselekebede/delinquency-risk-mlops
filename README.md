@@ -189,8 +189,6 @@ Extreme values
 Missing fields
 Stress testing
 ```
-## 📄 License
-This project is licensed under the MIT License — see the LICENSE file for details.
 
 ## 🙏 Acknowledgements
 1. Addis Ababa University, For academic support and resources.
