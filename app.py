@@ -10,6 +10,7 @@ import numpy as np
 import logging
 from datetime import datetime
 import uuid
+from fastapi.staticfiles import StaticFiles
 
 # --- Global Variables (to be populated at startup) ---
 model = None
@@ -237,3 +238,6 @@ def get_model_info():
     except Exception as e:
         logger.error(f"Failed to load model metadata: {e}")
         return {"error": "Could not load model metadata"}
+
+# Mount static files AFTER defining routes
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
