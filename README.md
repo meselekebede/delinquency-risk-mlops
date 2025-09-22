@@ -1,10 +1,10 @@
 # 🏦 Delinquency Risk Prediction System: End-to-End MLOps Pipeline
 
-> **Predict loan delinquency risk with automated retraining, drift detection, and deployment, built for production.**
+> **Predict loan delinquency risk with automated retraining, drift detection, and deployment, built for Learning MLOps best practices.**
 
 This project demonstrates a **complete, production-grade MLOps system** for predicting loan delinquency risk. It includes everything from synthetic data generation to model training, validation, API serving, automated retraining, drift detection, and deployment, all following **2025 industry standards**.
 
-Built by an M.Sc. student in Information and Data Science at Addis Ababa University, this system is designed to be **scalable, maintainable, and deployable**, ready for real-world use in Ethiopian fintech or microfinance institutions.
+Built by an M.Sc. student in Information and Data Science at Addis Ababa University, this system is designed to be **scalable, maintainable, and deployable**.
 
 ---
 
