@@ -44,10 +44,10 @@ jobs:
         run: python scripts/retrain.py
 
       # 7. Upload updated models and metadata
-      - name: 📤 Upload updated models (v4)
+      - name: 📤 Upload Trained Model
         uses: actions/upload-artifact@v4
         with:
-          name: retrained-models
+          name: delinquency-model-latest
           path: |
             models/model.pkl
             models/model_metadata.json
