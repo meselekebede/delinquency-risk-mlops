@@ -202,7 +202,6 @@ Stress testing
 4. Secure Tokens: Use GitHub App instead of PAT.
 5. Database Integration: Connect to PostgreSQL for real loan data.
 6. User Authentication: Add login for loan officers.
-7. Real data integrations: Integrate the system to use real data sources such as databases, csv, excel and so on instead of synthetic data
 
 # Project Architecture
 ### Legend:
