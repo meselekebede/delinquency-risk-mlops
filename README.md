@@ -206,17 +206,16 @@ Stress testing
 # Project Architecture
 ### Legend:
 1. data:
-    <img width="176" height="53" alt="image" src="https://github.com/user-attachments/assets/4635fedc-e223-4cb9-a06c-4ead44657f4a" />
-
+    <img width="195" height="72" alt="image" src="https://github.com/user-attachments/assets/04c7842b-868f-4268-b8e1-eba932827b85" />
 
 3. training: 
-   <img width="192" height="65" alt="image" src="https://github.com/user-attachments/assets/685d0c20-d5da-43d8-9515-e2a2a2e2c60f" />
+   <img width="196" height="72" alt="image" src="https://github.com/user-attachments/assets/a0826e97-6abe-408c-af64-61ea5240092b" />
 
 5. serving: 
-   <img width="194" height="73" alt="image" src="https://github.com/user-attachments/assets/548e896c-f493-46be-a5d4-34e96a3cdb67" />
+   <img width="195" height="79" alt="image" src="https://github.com/user-attachments/assets/912ec278-c2ec-49bd-848a-8e05356816eb" />
 
 6. monitoring:
-   <img width="190" height="70" alt="image" src="https://github.com/user-attachments/assets/b306f92a-2972-4747-a08c-01bba1ed9b18" />
+   <img width="199" height="86" alt="image" src="https://github.com/user-attachments/assets/6b4a0bdc-12f0-453d-a2b5-3eb0f0555597" />
 
 
 8. automation:
@@ -258,10 +257,10 @@ flowchart TD
     AA --> J
 
     %% Styling (GitHub supports this)
-    classDef data fill:#0f0f0f,stroke:#2e8b57;
-    classDef training fill:#c30ee3,stroke:#2e8b57;
-    classDef serving fill:#112bf0,stroke:#6a5acd;
-    classDef monitoring fill:#a60515,stroke:#cc503a;
+    classDef data fill:#0d93db,stroke:#2e8b57;
+    classDef training fill:#db0d8f,stroke:#2e8b57;
+    classDef serving fill:#507ef2,stroke:#6a5acd;
+    classDef monitoring fill:#049458,stroke:#cc503a;
     classDef automation fill:#05a69e,stroke:#6a5acd;
 
     class A,B data
